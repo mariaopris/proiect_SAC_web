@@ -10,7 +10,7 @@
         </RouterLink>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <RouterLink class="text-sm font-bold text-violet-900 p-2 bg-white rounded-full" to="/new-profile">Sign up
+        <RouterLink class="text-sm font-bold text-violet-900 p-2 bg-white rounded-full" to="/register">Sign up
         </RouterLink>
         <RouterLink class="text-sm font-bold leading-6 text-white p-2" to="/login">Log in <span
             aria-hidden="true">&rarr;</span></RouterLink>
