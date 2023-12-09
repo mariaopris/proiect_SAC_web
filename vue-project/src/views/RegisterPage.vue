@@ -43,7 +43,7 @@
           <h2 class="text-md mt-5 leading-7 text-gray-900 font-semibold">Choose a price range</h2>
           <div class="w-[400px] mt-3">
             <slider v-model="price" color="#a142f5" track-color="#e8e4e3" height="10" tooltip="true"
-                    tooltipColor="#e8e4e3" tooltipText="%v$" flipTooltip="true"/>
+                    tooltipColor="#e8e4e3" tooltipText="%v$" flipTooltip="true" max="667"/>
             <p class="mt-1 text-xs">Selected range: 0 - {{price}}</p>
           </div>
           <h2 class="text-md mt-5 leading-7 text-gray-900 font-semibold">Select between 1-3 cities</h2>
@@ -117,6 +117,7 @@ const save = async () => {
             username: username.value,
             password: password.value,
             facilities: facilities.value,
+            price: price.value,
             cities: cities.value,
           })
           .then((response) => {
