@@ -18,7 +18,7 @@
         <p class="flex justify-center mt-3 mb-7 text-sm">If you don't have an account <RouterLink to="/register" class="underline font-semibold text-blue-500 ml-2"> Sign Up</RouterLink></p>
 
         <div class="flex items-center justify-center">
-          <button class="bg-violet-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+          <button class="bg-violet-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="login()">
             Log In
           </button>
         </div>
@@ -32,7 +32,23 @@
 
 <script setup>
 import {ref} from 'vue';
+import axios from "axios";
+import {useRouter} from "vue-router";
 
 const username = ref('');
 const password = ref('');
+const router = useRouter();
+
+const login = async() => {
+  await axios.post('http://127.0.0.1:8000/api/login', {
+    user_name: username.value,
+    password: password.value
+  }).then((response) => {
+        console.log('response', response.data)
+    if(response.data.status){
+      router.push('/' + response.data.user.userId);
+    }
+  })
+}
+
 </script>
