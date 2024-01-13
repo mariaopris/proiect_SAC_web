@@ -67,7 +67,7 @@
                         <div class="border border-1 border-gray-200 mt-5 w-full"></div>
                         <div class="flex items-center justify-between mt-2">
                             <div class="font-bold text-gray-700 text-xl">Total</div>
-                            <div class="font-bold text-gray-700 text-xl">{{price}} lei</div>
+                            <div class="font-bold text-gray-700 text-xl">{{price}} €</div>
                         </div>
                     </form>
                 </div>
@@ -584,7 +584,7 @@ const getDates = () => {
   let timeDifference = checkOut.getTime() - checkIn.getTime();
   let daysDiffernce = timeDifference / (1000*3600*24);
 
-  price.value = price_per_night.value * Math.floor(daysDiffernce);
+  price.value = currentHotel.value.avg_price * Math.floor(daysDiffernce);
 }
 
 const resetReview = () => {
