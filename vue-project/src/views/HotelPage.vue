@@ -456,6 +456,7 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import {onMounted, ref, watch} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import {useRoute} from "vue-router";
 
 const slides = ref([]);
 const nr_stars = ref(5);
@@ -484,9 +485,13 @@ const check_out = ref();
 const no_guests = ref();
 const price = ref(0);
 const price_per_night = ref(432);
+
+const route = useRoute();
 const user_id = ref(0);
 const is_logged_in = ref(false);
 const username = ref('');
+const hotelId = ref('');
+hotelId.value = String(route.params.hotel_id);
 
 watch(check_out, (newValue, oldValue) => {
   if(newValue != oldValue) {
@@ -498,6 +503,7 @@ watch(check_in, (newValue, oldValue) => {
     getDates();
   }
 });
+
 const addStarReview = (index) => {
   nr_stars_selected.value = nr_stars_selected.value + index + 1;
   nr_stars.value = 5-nr_stars_selected.value;
@@ -540,4 +546,7 @@ const resetReview = () => {
 const total_score = ref(0);
 const total_score_round = ref(0);
 
+onMounted(async () => {
+    console.log(hotelId.value)
+})
 </script>

@@ -45,26 +45,24 @@
         <h2 class="text-3xl font-bold mb-4">Most Popular Hotels</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mt-5">
           <template v-for="hotel in popular_hotels" class="h-20">
-            <div class="bg-white p-4 rounded shadow-lg">
-              <RouterLink :to="'/hotel/'+user_id">
-                <div class="grid grid-rows-3">
-                  <img src="/logo.jpg" alt="Hotel C" class="w-full h-40 object-cover mb-4 rounded row-span-2">
-                  <div class="row-span-1">
-                    <h3 class="text-lg font-semibold mb-0.5">{{hotel.name}}</h3>
-                    <p class="text-gray-700 mb-2 text-sm"> {{hotel.city}}, India</p>
-                  </div>
+            <div @click="viewHotel(hotel.itemId)" class="bg-white p-4 rounded shadow-lg">
+              <div class="grid grid-rows-3">
+                <img src="/logo.jpg" alt="Hotel C" class="w-full h-40 object-cover mb-4 rounded row-span-2">
+                <div class="row-span-1">
+                  <h3 class="text-lg font-semibold mb-0.5">{{hotel.name}}</h3>
+                  <p class="text-gray-700 mb-2 text-sm"> {{hotel.city}}, India</p>
                 </div>
-                  <div class="flex space-x-3 items-center mb-2">
-                    <div class="text-white p-1 rounded-lg bg-violet-600 w-[40px] items-center justify-center flex">
-                      <p>{{hotel.rating}}</p>
-                      <img src="src/assets/img/star.svg" class="h-3.5 ml-1"/>
-                    </div>
-                    <div class="text-sm">{{hotel.num_reviews}} reviews</div>
+              </div>
+                <div class="flex space-x-3 items-center mb-2">
+                  <div class="text-white p-1 rounded-lg bg-violet-600 w-[40px] items-center justify-center flex">
+                    <p>{{hotel.rating}}</p>
+                    <img src="src/assets/img/star.svg" class="h-3.5 ml-1"/>
                   </div>
-                  <div class="flex justify-end text-gray-700 mb-2 text-sm">Starting Price:
-                    <span class="font-semibold"> €{{ hotel.prices }} per night</span>
-                  </div>
-              </RouterLink>
+                  <div class="text-sm">{{hotel.num_reviews}} reviews</div>
+                </div>
+                <div class="flex justify-end text-gray-700 mb-2 text-sm">Starting Price:
+                  <span class="font-semibold"> €{{ hotel.prices }} per night</span>
+                </div>
             </div>
           </template>
         </div>
@@ -73,8 +71,7 @@
         <h2 class="text-3xl font-bold mb-4">Our Recommended Hotels</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mt-8">
           <template v-for="hotel in recommended_hotels">
-            <div class="bg-white p-4 rounded shadow-lg">
-              <RouterLink :to="'/hotel/'+user_id">
+            <div @click="viewHotel(hotel.id)" class="bg-white p-4 rounded shadow-lg">
                 <div class="grid grid-rows-3">
                   <img src="/logo.jpg" alt="Hotel C" class="w-full h-40 object-cover mb-4 rounded row-span-2">
                   <div class="row-span-1">
@@ -92,7 +89,6 @@
                 <div class="flex justify-end text-gray-700 mb-2 text-sm">Starting Price:
                   <span class="font-semibold"> €{{ hotel.values.prices }} per night</span>
                 </div>
-              </RouterLink>
             </div>
           </template>
         </div>
@@ -156,10 +152,15 @@ const searchHotels = async() => {
   await router.push('/hotels/' + city.value);
 }
 
+const viewHotel = async (hotel_id: string) => {
+    await router.push({ name: 'hotel', params: { hotel_id: hotel_id } });
+}
 
 onMounted(async() => {
   await getPopularHotels();
   await getRecommandations();
+
+  console.log('popular', popular_hotels.value, 'recommend', recommended_hotels.value);
 })
 
 </script>
