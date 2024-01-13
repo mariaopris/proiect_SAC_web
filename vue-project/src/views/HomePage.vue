@@ -111,15 +111,18 @@ import axios from 'axios';
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useHotelsStore} from "/stores/hotels_stores";
+import {useAuthStore} from "../../stores/auth";
+import {useUserStore} from "../../stores/user-store";
 
 const isLoading = ref(true);
 const hotelsStore = useHotelsStore();
 const route = useRoute();
 const popular_hotels = ref([]);
-const user_id = route.params.user_id;
+const user_id = ref(0);
 const recommended_hotels = ref([]);
 const city = ref("");
 const router = useRouter();
+const userStore = useUserStore();
 
 const getPopularHotels = async() => {
   await axios.get('http://127.0.0.1:8000/api/get-popular-hotels')
@@ -141,7 +144,7 @@ const getPopularHotels = async() => {
 
 const getRecommandations = async() => {
   await axios.post('http://127.0.0.1:8000/api/get-recommandations', {
-    user_id: user_id
+    user_id: user_id.value
   })
       .then((response) => {
         response.data.recomms.forEach(hotel => {
@@ -182,13 +185,14 @@ const searchHotels = async() => {
 }
 
 const viewHotel = async (hotel_id: string) => {
-    await router.push({ name: 'hotel', params: { user_id: user_id,hotel_id: hotel_id } });
+    await router.push({ name: 'hotel', params: { hotel_id: hotel_id } });
 }
 
 onMounted(async() => {
+  user_id.value = userStore.userId;
   await getPopularHotels();
   await getRecommandations();
-
+console.log('auth', userStore.userName, userStore.userId)
   isLoading.value = false;
 })
 

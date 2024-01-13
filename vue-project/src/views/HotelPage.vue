@@ -20,27 +20,11 @@
                 <p class="ml-2">{{currentHotel.city}}</p>
             </div>
 
-            <!--    <carousel :items-to-show="1" class="mt-5">-->
-            <!--      <slide v-for="slide in slides" :key="slide">-->
-            <!--        <img :src="slide">-->
-            <!--      </slide>-->
-
-            <!--      <template #addons>-->
-            <!--        <navigation />-->
-            <!--        <pagination />-->
-            <!--      </template>-->
-            <!--    </carousel>-->
-
             <div class="grid grid-cols-2 mt-20">
                 <div class="mr-20">
                     <p class="text-xl font-semibold">Despre acest hotel</p>
                     <p class="mt-5">
-                        Hotelul Arc de Triomphe București este un hotel de lux situat într-o locație privilegiată, aproape de Piața Arcul de Triumf și de principalele atracții turistice din București. Acesta oferă o experiență elegantă și servicii de înaltă calitate pentru călătorii de afaceri și turiști.
-
-                        Hotelul dispune de camere și suite spațioase, decorate cu rafinament și atenție la detalii. Fiecare cameră oferă confort și eleganță, fiind dotată cu facilități moderne pentru a satisface cele mai exigente nevoi ale oaspeților. Acestea includ televizor cu ecran plat, minibar, acces Wi-Fi gratuit, aer condiționat și baie privată cu articole de toaletă de lux.
-
-                        Facilitățile oferite de Hotelul Arc de Triomphe includ un restaurant de top care servește preparate culinare delicioase, combinând bucătăria internațională cu elemente tradiționale românești. Oaspeții se pot bucura de o varietate de opțiuni gastronomice într-un cadru elegant și relaxant. De asemenea, hotelul are și un bar elegant unde oaspeții se pot relaxa și savura băuturi fine.
-                    </p>
+                        Hotelul {{currentHotel.name}} este un hotel situat într-o locație frumoasa in orasul {{currentHotel.city}}.</p>
                 </div>
                 <div class="w-full">
                     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -90,11 +74,11 @@
             </div>
 
             <div class="mt-10 mb-16">
-                <p class="text-2xl font-bold">Recenzii ({{reviews.length}} recenzii)</p>
+                <p class="text-2xl font-bold">Recenzii ({{currentHotel.num_reviews}} recenzii)</p>
                 <div class="flex justify-between mt-16">
                     <div class="flex">
                         <div class="grid mr-20">
-                            <p class="text-3xl font-bold text-gray-700 flex justify-center">{{ total_score }}</p>
+                            <p class="text-3xl font-bold text-gray-700 flex justify-center">{{currentHotel.rating}}</p>
                             <div class="flex mt-3">
                                 <div v-if="total_score_round > 0" v-for="item in total_score_round">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="purple" viewBox="0 0 24 24" stroke-width="1.5" stroke="purple" class="w-6 h-6">
@@ -107,7 +91,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <p class="text-sm flex justify-center mt-2 font-semibold">({{reviews.length}} recenzii)</p>
+                            <p class="text-sm flex justify-center mt-2 font-semibold">({{currentHotel.num_reviews}} recenzii)</p>
                         </div>
                         <div>
                             <div class="flex mb-2">
@@ -176,10 +160,10 @@
 
             <div v-if="open_review" class="mb-20 p-7 border border-gray-300 rounded-lg">
                 <div class="flex">
-                    <img src="/public/arc/2.jpg" alt="Hotel caro" class="w-20 rounded-lg">
+                    <img src="/logo.jpg" alt="Hotel caro" class="w-20 rounded-lg">
                     <div class="grid ml-10">
                         <p class="text-gray-700 text-lg font-semibold">Adauga o recenzie pentru</p>
-                        <p class="text-sm text-violet-800 font-semibold">Hotel Arc de Triomphe</p>
+                        <p class="text-sm text-violet-800 font-semibold">{{currentHotel.name}}</p>
                     </div>
                 </div>
                 <div class="flex mt-3 ml-28">
@@ -313,7 +297,7 @@
                 </div>
             </div>
 
-            <p class="mb-10 font-semibold">Sunt {{reviews.length}} rezultate pentru acest hotel</p>
+            <p class="mb-10 font-semibold">Sunt {{currentHotel.num_reviews}} rezultate pentru acest hotel</p>
             <div v-for="item in reviews" class="mb-4 border-b-1 border-t-0 border-l-0 border-r-0 border border-gray-300">
                 <div class="w-full flex">
                     <div class="w-1/3">
@@ -464,10 +448,10 @@ import axios from "axios";
 import Swal from 'sweetalert2'
 import {useRoute} from "vue-router";
 import {useHotelsStore} from "/stores/hotels_stores";
+import {useUserStore} from "../../stores/user-store";
 
 const hotelsStore = useHotelsStore();
 const isLoading = ref(true);
-const slides = ref([]);
 const nr_stars = ref(5);
 const nr_stars_selected = ref(0);
 const open_review = ref(false);
@@ -494,14 +478,13 @@ const check_out = ref();
 const no_guests = ref();
 const price = ref(0);
 const price_per_night = ref(432);
+const userStore = useUserStore();
 
 const route = useRoute();
 const popular_hotels = ref([]);
 const recommended_hotels = ref([]);
-const user_id = route.params.user_id;
+const user_id = ref(0);
 const currentHotel = ref({});
-const is_logged_in = ref(false);
-const username = ref('');
 const hotelId = ref('');
 hotelId.value = String(route.params.hotel_id);
 
@@ -546,7 +529,7 @@ const getPopularHotels = async() => {
 
 const getRecommandations = async() => {
     await axios.post('http://127.0.0.1:8000/api/get-recommandations', {
-        user_id: user_id
+        user_id: user_id.value
     })
         .then((response) => {
             response.data.recomms.forEach(hotel => {
@@ -586,7 +569,7 @@ const getPopularHotel = () => {
             currentHotel.value = pop_hotel;
         }
     })
-
+console.log('aaaaaaaaa', currentHotel.value)
     hotelsStore.recommendedHotels.forEach((recom_hotel) => {
         if(recom_hotel.id == hotelId.value)
         {
@@ -628,7 +611,7 @@ const resetReview = () => {
 const setHotelAsViewed = async() => {
   const payload = {
     item_id: route.params.hotel_id,
-    user_id: user_id
+    user_id: user_id.value
   }
   await axios.post('http://127.0.0.1:8000/api/set-view', payload)
       .then()
@@ -638,10 +621,12 @@ const total_score = ref(0);
 const total_score_round = ref(0);
 
 onMounted(async () => {
-    await getPopularHotels();
-    await getRecommandations();
-    await getPopularHotel();
-    await setHotelAsViewed();
+  user_id.value = userStore.userId;
+
+  await getPopularHotels();
+  await getRecommandations();
+  await getPopularHotel();
+  await setHotelAsViewed();
 
     isLoading.value = false;
 })
