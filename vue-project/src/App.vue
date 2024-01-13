@@ -9,17 +9,19 @@
           </div>
         </RouterLink>
       </div>
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+
+      <div v-if="is_logged_in" class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div class="flex items-center justify-center space-x-3 text-sm font-semibold text-white mr-5 rounded-full">
+          <img class="w-10" src="/public/avatar/avatar2.png">
+          <p>{{userStore.userName}}</p>
+        </div>
+        <button @click="logout()" class="text-sm font-semibold leading-6 text-gray-900 p-2">Log out <span
+            aria-hidden="true">&rarr;</span></button>
+      </div>
+      <div v-else class="hidden lg:flex lg:flex-1 lg:justify-end">
         <RouterLink class="text-sm font-bold text-violet-900 p-2 bg-white rounded-full" to="/register">Sign up
         </RouterLink>
         <RouterLink class="text-sm font-bold leading-6 text-white p-2" to="/login">Log in <span
-            aria-hidden="true">&rarr;</span></RouterLink>
-      </div>
-      <div v-if="is_logged_in" class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <RouterLink class="text-sm font-semibold text-white mr-5 rounded-full" to="/profile">
-          <img class="w-12" src="public/avatar/avatar1.png">
-        </RouterLink>
-        <RouterLink class="text-sm font-semibold leading-6 text-gray-900 p-2" to="/login">Log out <span
             aria-hidden="true">&rarr;</span></RouterLink>
       </div>
     </nav>
@@ -31,8 +33,22 @@
 
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router';
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {useUserStore} from "../stores/user-store";
+import router from "@/router";
+const userStore = useUserStore();
 
 const is_logged_in = ref(false);
 
+const logout = () => {
+  userStore.setUserId = '';
+  userStore.setUserName = '';
+  router.push('/login');
+}
+
+onMounted(() => {
+  if(userStore.userid !== '') {
+    is_logged_in.value = true;
+  }
+})
 </script>

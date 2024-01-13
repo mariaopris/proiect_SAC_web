@@ -34,19 +34,25 @@
 import {ref} from 'vue';
 import axios from "axios";
 import {useRouter} from "vue-router";
+import {AuthUser} from "@/composables/dataTypes";
+import {useAuthStore} from "/stores/auth";
+import {useUserStore} from "/stores/user-store";
 
 const username = ref('');
 const password = ref('');
 const router = useRouter();
+const auth = useAuthStore();
+const userStore = useUserStore();
 
 const login = async() => {
   await axios.post('http://127.0.0.1:8000/api/login', {
     user_name: username.value,
     password: password.value
   }).then((response) => {
-        console.log('response', response.data)
     if(response.data.status){
-      router.push('/' + response.data.user.userId);
+      userStore.setUserId(response.data.user.userId);
+      userStore.setUserName(username.value);
+      router.push('/');
     }
   })
 }

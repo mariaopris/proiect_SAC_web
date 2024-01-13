@@ -123,7 +123,11 @@ const save = async () => {
           })
           .then((response) => {
             console.log(response.data.user_id);
-            router.push('/' + response.data.user_id);
+            Swal.fire({
+              title: 'Account created successfully!',
+              icon: 'success',
+            })
+            router.push('/login');
           });
     } catch (e) {
       await Swal.fire({
