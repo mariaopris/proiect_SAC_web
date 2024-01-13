@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'register',
       component: () => import('../views/RegisterPage.vue')
     },
+    {
+      path: '/hotels/:city',
+      name: 'city_hotels',
+      component: () => import('../views/CityHotelsPage.vue')
+    },
   ]
 })
 
