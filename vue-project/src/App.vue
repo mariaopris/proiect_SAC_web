@@ -4,7 +4,7 @@
       <div class="flex lg:flex-1">
         <RouterLink to="/" class="-m-1.5 p-1.5">
           <div class="flex items-center space-x-3">
-            <img class="h-16 w-16" src="public/logo.jpg" alt="">
+            <img class="h-16 w-16" src="/logo.jpg" alt="">
             <h class="text-3xl text-white font-sans font-bold italic">hotels.</h>
           </div>
         </RouterLink>
