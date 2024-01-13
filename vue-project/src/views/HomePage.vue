@@ -6,7 +6,24 @@
         <div class="flex space-x-3">
           <div>
             <p class="text-gray-200 mb-1">Where are you going?</p>
-            <input type="text" placeholder="ex: Mumbai" class="border p-3 rounded-lg focus:outline-none w-[350px]">
+            <select v-model="city" class="border p-3 rounded-lg focus:outline-none w-[350px]">
+              <option value="agra">Agra</option>
+              <option value="bangalore">Bangalore</option>
+              <option value="darjeeling">Darjeeling</option>
+              <option value="delhi">Delhi</option>
+              <option value="goa">Goa</option>
+              <option value="haridwar">Haridwar</option>
+              <option value="jaisalmer">Jaisalmer</option>
+              <option value="jodhpur">Jodhpur</option>
+              <option value="kochi">Kochi</option>
+              <option value="kolkata">Kolkata</option>
+              <option value="mumbai">Mumbai</option>
+              <option value="mysore">Mysore</option>
+              <option value="rishikesh">Rishikesh</option>
+              <option value="shimla">Shimla</option>
+              <option value="udaipur">Udaipur</option>
+              <option value="varanasi">Varanasi</option>
+            </select>
           </div>
           <div>
             <p class="text-gray-200 mb-1">Check-in</p>
@@ -18,7 +35,7 @@
           </div>
           <div>
             <p class="text-violet-600">.</p>
-            <button class="bg-violet-900 text-white font-semibold p-3 rounded-lg w-[100px]">Search</button>
+            <button @click="searchHotels()" class="bg-violet-900 text-white font-semibold p-3 rounded-lg w-[100px]">Search</button>
           </div>
         </div>
       </div>
@@ -84,13 +101,14 @@
 <script setup lang="ts">
 import axios from 'axios';
 import {onMounted, ref} from "vue";
-import {useRoute} from "vue-router";
-import router from "@/router";
+import {useRoute, useRouter} from "vue-router";
 
 const route = useRoute();
 const popular_hotels = ref([]);
 const user_id = route.params.user_id;
 const recommended_hotels = ref([]);
+const city = ref("");
+const router = useRouter();
 
 const getPopularHotels = async() => {
   await axios.get('http://127.0.0.1:8000/api/get-popular-hotels')
@@ -128,6 +146,10 @@ const getRecommandations = async() => {
           recommended_hotels.value[recommended_hotels.value.length - 1].values.prices = Math.round(hotel_price / 89.88);
         })
       })
+}
+
+const searchHotels = async() => {
+  await router.push('/hotels/' + city.value);
 }
 
 const viewHotel = async (hotel_id: string) => {
