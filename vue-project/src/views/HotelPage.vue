@@ -624,6 +624,16 @@ const resetReview = () => {
   }
 }
 
+
+const setHotelAsViewed = async() => {
+  const payload = {
+    item_id: route.params.hotel_id,
+    user_id: user_id
+  }
+  await axios.post('http://127.0.0.1:8000/api/set-view', payload)
+      .then()
+}
+
 const total_score = ref(0);
 const total_score_round = ref(0);
 
@@ -631,6 +641,7 @@ onMounted(async () => {
     await getPopularHotels();
     await getRecommandations();
     await getPopularHotel();
+    await setHotelAsViewed();
 
     isLoading.value = false;
 })
