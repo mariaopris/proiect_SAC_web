@@ -7,36 +7,37 @@
     <template v-else>
         <div class="max-w-[1200px] mx-auto px-2 mt-20">
 
-            <p class="text-3xl flex justify-center">{{currentHotel.name}}</p>
+            <p class="text-3xl flex justify-center">{{hotel.name}}</p>
             <div class="flex justify-center mt-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="purple" viewBox="0 0 24 24" stroke-width="1.5" stroke="purple" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                 </svg>
-                <p class="ml-2 mr-10 underline">{{currentHotel.num_reviews}} recenzii</p>
+                <p class="ml-2 mr-10 underline">{{hotel.num_reviews}} recenzii</p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
-                <p class="ml-2">{{currentHotel.city}}</p>
+                <p class="ml-2">{{hotel.city}}</p>
             </div>
 
             <div class="grid grid-cols-2 mt-20">
                 <div class="mr-20">
                     <p class="text-xl font-semibold">Despre acest hotel</p>
                     <p class="mt-5">
-                        Hotelul {{currentHotel.name}} este un hotel situat într-o locație frumoasa in orasul {{currentHotel.city}}.</p>
+                        Hotelul {{hotel.name}} este un hotel situat într-o locație frumoasa in orasul {{hotel.city[0].toUpperCase() + hotel.city.substring(1)}}.</p>
+                  <img src="/logo.jpg" alt="Hotel C" class="w-full h-80 object-cover mb-4 rounded row-span-2">
                 </div>
                 <div class="w-full">
                     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <div class="flex justify-between">
                             <div>
-                                <p class="font-bold">{{currentHotel.avg_price}} €/noapte</p>
+                                <p class="font-bold">{{hotel.avg_price}} €/noapte</p>
                             </div>
                             <div class="flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="purple" viewBox="0 0 24 24" stroke-width="1.5" stroke="purple" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                                 </svg>
-                                <p class="ml-2 mr-10 underline">{{currentHotel.num_reviews}} recenzii</p>
+                                <p class="ml-2 mr-10 underline">{{hotel.num_reviews}} recenzii</p>
                             </div>
                         </div>
 
@@ -74,11 +75,11 @@
             </div>
 
             <div class="mt-10 mb-16">
-                <p class="text-2xl font-bold">Recenzii ({{currentHotel.num_reviews}} recenzii)</p>
+                <p class="text-2xl font-bold">Recenzii ({{hotel.num_reviews}} recenzii)</p>
                 <div class="flex justify-between mt-16">
                     <div class="flex">
                         <div class="grid mr-20">
-                            <p class="text-3xl font-bold text-gray-700 flex justify-center">{{currentHotel.rating}}</p>
+                            <p class="text-3xl font-bold text-gray-700 flex justify-center">{{hotel.rating}}</p>
                             <div class="flex mt-3">
                                 <div v-if="total_score_round > 0" v-for="item in total_score_round">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="purple" viewBox="0 0 24 24" stroke-width="1.5" stroke="purple" class="w-6 h-6">
@@ -86,55 +87,55 @@
                                     </svg>
                                 </div>
                                 <div v-for="item in  5 - total_score_round">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-6 h-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                                     </svg>
                                 </div>
                             </div>
-                            <p class="text-sm flex justify-center mt-2 font-semibold">({{currentHotel.num_reviews}} recenzii)</p>
+                            <p class="text-sm flex justify-center mt-2 font-semibold">({{hotel.num_reviews}} recenzii)</p>
                         </div>
-                        <div>
-                            <div class="flex mb-2">
-                                <p class="text-sm mr-3">5 stele</p>
-                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">
-                                    <div class="w-5/5 h-full text-center text-xs text-white bg-green-600 rounded-full">
-                                    </div>
-                                </div>
-                                <p class="text-sm ml-5">({{nr_stars_total[5]}})</p>
-                            </div>
-                            <div class="flex mb-2">
-                                <p class="text-sm mr-3">4 stele</p>
-                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">
-                                    <div class="w-4/5 h-full text-center text-xs text-white bg-lime-300 rounded-full">
-                                    </div>
-                                </div>
-                                <p class="text-sm ml-5">({{nr_stars_total[4]}})</p>
-                            </div>
-                            <div class="flex mb-2">
-                                <p class="text-sm mr-3">3 stele</p>
-                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">
-                                    <div class="w-3/5 h-full text-center text-xs text-white bg-orange-400 rounded-full">
-                                    </div>
-                                </div>
-                                <p class="text-sm ml-5">({{nr_stars_total[3]}})</p>
-                            </div>
-                            <div class="flex mb-2">
-                                <p class="text-sm mr-3">2 stele</p>
-                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">
-                                    <div class="w-2/5 h-full text-center text-xs text-white bg-yellow-300 rounded-full">
-                                    </div>
-                                </div>
-                                <p class="text-sm ml-5">({{nr_stars_total[2]}})</p>
-                            </div>
-                            <div class="flex mb-2">
-                                <p class="text-sm mr-4">1 stea</p>
-                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">
-                                    <div class="w-1/5 h-full text-center text-xs text-white bg-red-600 rounded-full">
-                                    </div>
-                                </div>
-                                <p class="text-sm ml-5">({{nr_stars_total[1]}})</p>
-                            </div>
-                        </div>
+<!--                        <div>-->
+<!--                            <div class="flex mb-2">-->
+<!--                                <p class="text-sm mr-3">5 stele</p>-->
+<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
+<!--                                    <div class="w-5/5 h-full text-center text-xs text-white bg-green-600 rounded-full">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <p class="text-sm ml-5">({{nr_stars_total[5]}})</p>-->
+<!--                            </div>-->
+<!--                            <div class="flex mb-2">-->
+<!--                                <p class="text-sm mr-3">4 stele</p>-->
+<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
+<!--                                    <div class="w-4/5 h-full text-center text-xs text-white bg-lime-300 rounded-full">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <p class="text-sm ml-5">({{nr_stars_total[4]}})</p>-->
+<!--                            </div>-->
+<!--                            <div class="flex mb-2">-->
+<!--                                <p class="text-sm mr-3">3 stele</p>-->
+<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
+<!--                                    <div class="w-3/5 h-full text-center text-xs text-white bg-orange-400 rounded-full">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <p class="text-sm ml-5">({{nr_stars_total[3]}})</p>-->
+<!--                            </div>-->
+<!--                            <div class="flex mb-2">-->
+<!--                                <p class="text-sm mr-3">2 stele</p>-->
+<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
+<!--                                    <div class="w-2/5 h-full text-center text-xs text-white bg-yellow-300 rounded-full">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <p class="text-sm ml-5">({{nr_stars_total[2]}})</p>-->
+<!--                            </div>-->
+<!--                            <div class="flex mb-2">-->
+<!--                                <p class="text-sm mr-4">1 stea</p>-->
+<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
+<!--                                    <div class="w-1/5 h-full text-center text-xs text-white bg-red-600 rounded-full">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <p class="text-sm ml-5">({{nr_stars_total[1]}})</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <div>
                         <p class="text-xl font-semibold">Ai vizitat acest hotel?</p>
@@ -163,7 +164,7 @@
                     <img src="/logo.jpg" alt="Hotel caro" class="w-20 rounded-lg">
                     <div class="grid ml-10">
                         <p class="text-gray-700 text-lg font-semibold">Adauga o recenzie pentru</p>
-                        <p class="text-sm text-violet-800 font-semibold">{{currentHotel.name}}</p>
+                        <p class="text-sm text-violet-800 font-semibold">{{hotel.name}}</p>
                     </div>
                 </div>
                 <div class="flex mt-3 ml-28">
@@ -180,115 +181,8 @@
                     <p class="mt-1 ml-5 font-semibold">Acorda o nota generala</p>
                 </div>
 
-                <div class="mt-7">
-                    <label>Titlu recenzie</label>
-                    <input v-model="description" class="mt-3 shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="check-out" type="text">
-                </div>
-
-                <div class="mt-5">
-                    <label>Recenzie</label>
-                    <textarea v-model="long_description" class="mt-3 shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="check-out" type="text"> </textarea>
-                </div>
-
-                <div class="grid grid-cols-2 mt-3">
-                    <div class="ml-10">
-                        <div class="grid grid-cols-2 mt-5">
-                            <div class="font-semibold text-sm">Curatenie</div>
-                            <div class="flex">
-                                <div v-for="(item, index) in other_scores.clean">
-                                    <svg @click="other_scores.clean = index" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                                <div v-for="(item, index) in 5-other_scores.clean">
-                                    <svg @click="other_scores.clean = other_scores.clean + index + 1" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 mt-2">
-                            <div class="font-semibold text-sm">Comunicare</div>
-                            <div class="flex">
-                                <div v-for="(item, index) in other_scores.communication">
-                                    <svg @click="other_scores.communication = index" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                                <div v-for="(item, index) in 5-other_scores.communication">
-                                    <svg @click="other_scores.communication = other_scores.communication + index + 1" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 mt-2">
-                            <div class="font-semibold text-sm">Check-in</div>
-                            <div class="flex">
-                                <div v-for="(item, index) in other_scores['check-in']">
-                                    <svg @click="other_scores['check-in'] = index" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                                <div v-for="(item, index) in 5-other_scores['check-in']">
-                                    <svg @click="other_scores['check-in'] = other_scores['check-in'] + index + 1" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ml-60">
-                        <div class="grid grid-cols-2 mt-5">
-                            <div class="font-semibold text-sm">Acuratete</div>
-                            <div class="flex">
-                                <div v-for="(item, index) in other_scores.accuracy">
-                                    <svg @click="other_scores.accuracy = index" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                                <div v-for="(item, index) in 5-other_scores.accuracy">
-                                    <svg @click="other_scores.accuracy = other_scores.accuracy + index + 1" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 mt-2">
-                            <div class="font-semibold text-sm">Pozitie</div>
-                            <div class="flex">
-                                <div v-for="(item, index) in other_scores.location">
-                                    <svg @click="other_scores.location = index" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                                <div v-for="(item, index) in 5-other_scores.location">
-                                    <svg @click="other_scores.location = other_scores.location + index + 1" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 mt-2">
-                            <div class="font-semibold text-sm">Raport calitate/pret</div>
-                            <div class="flex">
-                                <div v-for="(item, index) in other_scores['quality-price']">
-                                    <svg @click="other_scores['quality-price'] = index" xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 24 24" stroke-width="1.5" stroke="orange" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                                <div v-for="(item, index) in 5-other_scores['quality-price']">
-                                    <svg @click="other_scores['quality-price'] = other_scores['quality-price'] + index + 1" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="flex justify-center mt-10">
-                    <button class="mt-3 text-sm bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-1.5 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button @click="addReview()" class="mt-3 text-sm bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-1.5 rounded focus:outline-none focus:shadow-outline" type="button">
                         Trimite
                     </button>
                     <button @click="resetReview()" class="ml-5 mt-3 text-sm outline outline-blue-700 hover:bg-blue-700 hover:text-white text-blue-700 py-1.5 px-1.5 rounded focus:outline-none focus:shadow-outline" type="button">
@@ -297,7 +191,7 @@
                 </div>
             </div>
 
-            <p class="mb-10 font-semibold">Sunt {{currentHotel.num_reviews}} rezultate pentru acest hotel</p>
+            <p class="mb-10 font-semibold">Sunt {{hotel.num_reviews}} rezultate pentru acest hotel</p>
             <div v-for="item in reviews" class="mb-4 border-b-1 border-t-0 border-l-0 border-r-0 border border-gray-300">
                 <div class="w-full flex">
                     <div class="w-1/3">
@@ -442,15 +336,12 @@
 
 <script setup lang="ts">
 import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2'
 import {useRoute} from "vue-router";
-import {useHotelsStore} from "/stores/hotels_stores";
 import {useUserStore} from "../../stores/user-store";
 
-const hotelsStore = useHotelsStore();
 const isLoading = ref(true);
 const nr_stars = ref(5);
 const nr_stars_selected = ref(0);
@@ -475,29 +366,31 @@ const long_description = ref('');
 const reviews = ref([]);
 const check_in = ref();
 const check_out = ref();
-const no_guests = ref();
-const price = ref(0);
-const price_per_night = ref(432);
+const no_guests = ref(1);
 const userStore = useUserStore();
-
+const hotel = ref({});
 const route = useRoute();
-const popular_hotels = ref([]);
-const recommended_hotels = ref([]);
 const user_id = ref(0);
-const currentHotel = ref({});
 const hotelId = ref('');
 hotelId.value = String(route.params.hotel_id);
 
-watch(check_out, (newValue, oldValue) => {
-  if(newValue != oldValue) {
-    getDates();
+
+const price = computed(() => {
+  let checkOut = new Date(check_out.value);
+  let checkIn = new Date(check_in.value);
+  let timeDifference = checkOut.getTime() - checkIn.getTime();
+  let daysDiffernce = timeDifference / (1000*3600*24);
+
+  let total_price = hotel.value.avg_price * Math.floor(daysDiffernce) * no_guests.value;
+
+  if(isNaN(total_price)){
+    return 0;
   }
+
+  return total_price;
+
 });
-watch(check_in, (newValue, oldValue) => {
-  if(newValue != oldValue) {
-    getDates();
-  }
-});
+
 
 const addStarReview = (index) => {
   nr_stars_selected.value = nr_stars_selected.value + index + 1;
@@ -507,84 +400,6 @@ const addStarReview = (index) => {
 const removeStarReview = (index) => {
   nr_stars.value = 5-index ;
   nr_stars_selected.value = 5-nr_stars.value;
-}
-
-const getPopularHotels = async() => {
-    await axios.get('http://127.0.0.1:8000/api/get-popular-hotels')
-        .then((response) => {
-            response.data.forEach(hotel => {
-                hotel.city = hotel.city[0].toUpperCase() + hotel.city.substring(1);
-                hotel.prices = JSON.parse(hotel.prices);
-                let price = hotel.prices[0];
-                hotel.prices.forEach(hotel_price => {
-                    if(hotel_price < price){
-                        price = hotel_price;
-                    }
-                });
-                hotel.prices = Math.round(price / 89.88);
-                popular_hotels.value.push(hotel);
-            })
-        })
-}
-
-const getRecommandations = async() => {
-    await axios.post('http://127.0.0.1:8000/api/get-recommandations', {
-        user_id: user_id.value
-    })
-        .then((response) => {
-            response.data.recomms.forEach(hotel => {
-                recommended_hotels.value.push({
-                    'id':hotel.id,
-                    'avg_price':hotel.values.avg_price,
-                    'city':hotel.values.city,
-                    'free_parking':hotel.values.free_parking,
-                    'free_wifi':hotel.values.free_wifi,
-                    'fully_refundable': hotel.values.fully_refundable,
-                    'name': hotel.values.name,
-                    'no_payment_needed':hotel.values.no_payment_needed,
-                    'num_reviews':hotel.values.num_reviews,
-                    'pool':hotel.values.pool,
-                    'prices':hotel.values.prices,
-                    'rank':hotel.values.rank,
-                    'rating':hotel.values.rating
-                });
-
-                recommended_hotels.value[recommended_hotels.value.length - 1].prices = JSON.parse(recommended_hotels.value[recommended_hotels.value.length - 1].prices);
-                let hotel_price = recommended_hotels.value[recommended_hotels.value.length - 1].prices[0];
-                recommended_hotels.value[recommended_hotels.value.length - 1].prices.forEach(price => {
-                    if(price < hotel_price){
-                        hotel_price = price;
-                    }
-                })
-                recommended_hotels.value[recommended_hotels.value.length - 1].city = recommended_hotels.value[recommended_hotels.value.length - 1].city[0].toUpperCase() + recommended_hotels.value[recommended_hotels.value.length - 1].city.substring(1);
-                recommended_hotels.value[recommended_hotels.value.length - 1].prices = Math.round(hotel_price / 89.88);
-            })
-        })
-}
-
-const getPopularHotel = () => {
-    popular_hotels.value.forEach((pop_hotel) => {
-        if(pop_hotel.itemId == hotelId.value)
-        {
-            currentHotel.value = pop_hotel;
-        }
-    })
-console.log('aaaaaaaaa', currentHotel.value)
-    hotelsStore.recommendedHotels.forEach((recom_hotel) => {
-        if(recom_hotel.id == hotelId.value)
-        {
-            currentHotel.value = recom_hotel;
-        }
-    })
-}
-
-const getDates = () => {
-  let checkOut = new Date(check_out.value);
-  let checkIn = new Date(check_in.value);
-  let timeDifference = checkOut.getTime() - checkIn.getTime();
-  let daysDiffernce = timeDifference / (1000*3600*24);
-
-  price.value = currentHotel.value.avg_price * Math.floor(daysDiffernce);
 }
 
 const resetReview = () => {
@@ -608,6 +423,17 @@ const resetReview = () => {
 }
 
 
+const getHotelDetails = async() => {
+  await axios.get('http://127.0.0.1:8000/api/get-hotel', {params: {
+      item_id: hotelId.value,
+    }
+  })
+      .then((response) => {
+        hotel.value = response.data.hotel;
+      })
+}
+
+
 const setHotelAsViewed = async() => {
   const payload = {
     item_id: route.params.hotel_id,
@@ -617,15 +443,46 @@ const setHotelAsViewed = async() => {
       .then()
 }
 
-const total_score = ref(0);
+const addReservation = async() => {
+  let payload = {
+    item_id: hotelId.value,
+    user_id: user_id.value,
+    price: price.value
+  }
+  await axios.post('http://127.0.0.1:8000/api/add-reservation', payload)
+      .then((response) => {
+        if(response.data.status === true) {
+         Swal.fire({
+            title: response.data.message,
+            icon: 'success',
+          })
+        }
+      })
+}
+
+const addReview = async() => {
+  const payload = {
+    rating: nr_stars_selected.value,
+    user_id: user_id.value,
+    item_id: hotelId.value
+  }
+  await axios.post('http://127.0.0.1:8000/api/add-review', payload)
+      .then((response) => {
+        if(response.data.status === true) {
+          Swal.fire({
+            title: response.data.message,
+            icon: 'success',
+          })
+        }
+      })
+}
+
 const total_score_round = ref(0);
 
 onMounted(async () => {
   user_id.value = userStore.userId;
 
-  await getPopularHotels();
-  await getRecommandations();
-  await getPopularHotel();
+  await getHotelDetails();
   await setHotelAsViewed();
 
     isLoading.value = false;
