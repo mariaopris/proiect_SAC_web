@@ -192,7 +192,6 @@ onMounted(async() => {
   user_id.value = userStore.userId;
   await getPopularHotels();
   await getRecommandations();
-console.log('auth', userStore.userName, userStore.userId)
   isLoading.value = false;
 })
 

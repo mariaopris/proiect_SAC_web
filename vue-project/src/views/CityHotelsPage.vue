@@ -45,7 +45,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mt-5">
         <template v-for="hotel in hotels" class="h-20">
           <div class="bg-white p-4 rounded shadow-lg">
-            <RouterLink :to="'/hotel/'">
+            <RouterLink :to="'/hotel/'+ hotel.itemId">
               <div class="grid grid-rows-3">
                 <img src="/logo.jpg" alt="Hotel C" class="w-full h-40 object-cover mb-4 rounded row-span-2">
                 <div class="row-span-1">

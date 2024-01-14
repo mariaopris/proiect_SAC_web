@@ -122,7 +122,6 @@ const save = async () => {
             cities: cities.value,
           })
           .then((response) => {
-            console.log(response.data.user_id);
             Swal.fire({
               title: 'Account created successfully!',
               icon: 'success',
