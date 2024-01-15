@@ -10,7 +10,7 @@
         </RouterLink>
       </div>
 
-      <div v-if="is_logged_in" class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <div v-if="userStore.userId !== '' && userStore.userId !== undefined" class="hidden lg:flex lg:flex-1 lg:justify-end">
         <div class="flex items-center justify-center space-x-3 text-sm font-semibold text-white mr-5 rounded-full">
           <img class="w-10" src="/public/avatar/avatar2.png">
           <p>{{userStore.userName}}</p>
@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router';
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import {useUserStore} from "../stores/user-store";
 import router from "@/router";
 const userStore = useUserStore();
@@ -41,14 +41,9 @@ const userStore = useUserStore();
 const is_logged_in = ref(false);
 
 const logout = () => {
-  userStore.setUserId = '';
-  userStore.setUserName = '';
+  userStore.setUserId('');
+  userStore.setUserName('');
+  is_logged_in.value = false;
   router.push('/login');
 }
-
-onMounted(() => {
-  if(userStore.userid !== '') {
-    is_logged_in.value = true;
-  }
-})
 </script>

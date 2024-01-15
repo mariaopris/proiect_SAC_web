@@ -23,9 +23,15 @@
             <div class="grid grid-cols-2 mt-20">
                 <div class="mr-20">
                     <p class="text-xl font-semibold">Despre acest hotel</p>
+                    <p class="text-md font-semibold mt-5">Facilitati:</p>
+                    <div v-for="facility in facilities">
+                      <li class="mt-3">{{facility}}</li>
+                    </div>
                     <p class="mt-5">
                         Hotelul {{hotel.name}} este un hotel situat într-o locație frumoasa in orasul {{hotel.city[0].toUpperCase() + hotel.city.substring(1)}}.</p>
-                  <img src="/logo.jpg" alt="Hotel C" class="w-full h-80 object-cover mb-4 rounded row-span-2">
+                  <div class="flex justify-center items-center">
+                    <img src="/logo.jpg" alt="Hotel C" class="h-60 justify-center items-center flex object-cover mb-4 rounded row-span-2">
+                  </div>
                 </div>
                 <div class="w-full">
                     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -52,12 +58,6 @@
                                 Check-out {{check_out}}
                             </label>
                             <input v-model="check_out" class="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="check-out" type="date">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="check-out">
-                                Numar oaspeti
-                            </label>
-                            <input v-model="no_guests" class="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="check-out" type="number" max="4" min="1" placeholder="select between 1 - 4">
                         </div>
                         <div class="flex items-center justify-end">
                             <button @click="addReservation()" class="bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
@@ -94,48 +94,6 @@
                             </div>
                             <p class="text-sm flex justify-center mt-2 font-semibold">({{hotel.num_reviews}} recenzii)</p>
                         </div>
-<!--                        <div>-->
-<!--                            <div class="flex mb-2">-->
-<!--                                <p class="text-sm mr-3">5 stele</p>-->
-<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
-<!--                                    <div class="w-5/5 h-full text-center text-xs text-white bg-green-600 rounded-full">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <p class="text-sm ml-5">({{nr_stars_total[5]}})</p>-->
-<!--                            </div>-->
-<!--                            <div class="flex mb-2">-->
-<!--                                <p class="text-sm mr-3">4 stele</p>-->
-<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
-<!--                                    <div class="w-4/5 h-full text-center text-xs text-white bg-lime-300 rounded-full">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <p class="text-sm ml-5">({{nr_stars_total[4]}})</p>-->
-<!--                            </div>-->
-<!--                            <div class="flex mb-2">-->
-<!--                                <p class="text-sm mr-3">3 stele</p>-->
-<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
-<!--                                    <div class="w-3/5 h-full text-center text-xs text-white bg-orange-400 rounded-full">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <p class="text-sm ml-5">({{nr_stars_total[3]}})</p>-->
-<!--                            </div>-->
-<!--                            <div class="flex mb-2">-->
-<!--                                <p class="text-sm mr-3">2 stele</p>-->
-<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
-<!--                                    <div class="w-2/5 h-full text-center text-xs text-white bg-yellow-300 rounded-full">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <p class="text-sm ml-5">({{nr_stars_total[2]}})</p>-->
-<!--                            </div>-->
-<!--                            <div class="flex mb-2">-->
-<!--                                <p class="text-sm mr-4">1 stea</p>-->
-<!--                                <div class="w-80 h-2 bg-gray-200 rounded-full mt-2">-->
-<!--                                    <div class="w-1/5 h-full text-center text-xs text-white bg-red-600 rounded-full">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <p class="text-sm ml-5">({{nr_stars_total[1]}})</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
                     <div>
                         <p class="text-xl font-semibold">Ai vizitat acest hotel?</p>
@@ -366,14 +324,20 @@ const long_description = ref('');
 const reviews = ref([]);
 const check_in = ref();
 const check_out = ref();
-const no_guests = ref(1);
 const userStore = useUserStore();
 const hotel = ref({});
+const facilities = ref([]);
 const route = useRoute();
 const user_id = ref(0);
 const hotelId = ref('');
 hotelId.value = String(route.params.hotel_id);
-
+const dict = ref([
+  {id: 'free_parking', name: 'Parcare gratuita'},
+  {id: 'free_wifi', name: 'WiFi gratis'},
+  {id: 'fully_refundable', name: 'Complet rambursabil'},
+  {id: 'no_prepayment_needed', name: 'Fara plata in avans'},
+  {id: 'pool', name: 'Piscina'},
+])
 
 const price = computed(() => {
   let checkOut = new Date(check_out.value);
@@ -381,7 +345,7 @@ const price = computed(() => {
   let timeDifference = checkOut.getTime() - checkIn.getTime();
   let daysDiffernce = timeDifference / (1000*3600*24);
 
-  let total_price = hotel.value.avg_price * Math.floor(daysDiffernce) * no_guests.value;
+  let total_price = hotel.value.avg_price * Math.floor(daysDiffernce);
 
   if(isNaN(total_price)){
     return 0;
@@ -430,6 +394,15 @@ const getHotelDetails = async() => {
   })
       .then((response) => {
         hotel.value = response.data.hotel;
+        total_score_round.value = Math.round(hotel.value.rating);
+        Object.keys(hotel.value).forEach((elem) => {
+          if(hotel.value[elem]) {
+            let i = dict.value.findIndex(item => item.id === elem);
+            if(i >= 0) {
+              facilities.value.push(dict.value[i].name);
+            }
+          }
+        })
       })
 }
 
@@ -480,11 +453,12 @@ const addReview = async() => {
 const total_score_round = ref(0);
 
 onMounted(async () => {
+
   user_id.value = userStore.userId;
 
   await getHotelDetails();
   await setHotelAsViewed();
 
-    isLoading.value = false;
+  isLoading.value = false;
 })
 </script>
